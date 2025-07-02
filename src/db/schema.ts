@@ -37,12 +37,14 @@ export const products = pgTable('products', {
   price: real('price').notNull(),
   stock: integer('stock').default(0),
   thumbnail: text('thumbnail'),
-  tags: jsonb('tags').default([]).notNull(),  // Array of tags
+  category:text('category').notNull(),  // Array of tags
   images: jsonb('images').default([]).notNull(), // Array of image URLs
   ratingAverage: real('rating_average').default(0), // Avg. rating
   ratingCount: integer('rating_count').default(0), // Total number of ratings
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
+
+  userId:uuid('user_id').notNull().references(()=>users.id,{onDelete:'cascade'})
 });
 
 // ==================== Review Table ====================

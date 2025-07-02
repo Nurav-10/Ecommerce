@@ -25,26 +25,22 @@ export async function login(email: string, password: string) {
 
     const isCheck = await bcrypt.compare(password, response[0].password);
 
-    const data=response[0]
-
     if (isCheck) {
        
-       useUserStore.getState().setUser({
-         id:data.id,
-         username:data.username,
-         email:data.email,
-         role:String(data.role)
-       })
+      
        const token=jwt.sign({
          username:response[0].username,
          role:response[0].role,
-         profilePicture:response[0].profilePicture
+         id:response[0].id,
+         email:response[0].email,
+         profilePicture:response[0].profilePicture || ' '
        },process.env.JSONWEBTOKEN!,{expiresIn:'7d'})
 
+
        cookieStore.set({
-         name:'Rascal',
+         name:'token',
          value:token,
-         httpOnly:true,
+         httpOnly:false,
          path:'/'
        })
 
@@ -53,6 +49,9 @@ export async function login(email: string, password: string) {
       return {
         message: "Login Successful",
         success: true,
+        user:{
+          username:response[0].username,
+        }
       };
 
       //creating token and storing it as cookies.

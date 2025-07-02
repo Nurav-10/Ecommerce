@@ -8,6 +8,8 @@ import Link from "next/link";
 import { login } from "@/actions/login";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useUserStore } from "@/store/userStore";
+import { SyncUserFromToken } from "@/actions/setUserState";
 
 const rale = Raleway({
   subsets: ["latin"],
@@ -24,7 +26,10 @@ const page = () => {
     if(response?.success)
     {
       toast.success(response.message)
+      SyncUserFromToken()
       router.push('/')
+
+      //set state of the user.
       return
     }
     else{
@@ -32,14 +37,14 @@ const page = () => {
     }
   };
   return (
-    <div className={`flex w-screen h-screen bg-zinc-950 ${rale.className}`}>
+    <div className={`flex w-screen h-screen bg-zinc-950 ${rale.className} text-white`}>
       <div className="login md:w-[50vw] w-full flex-col h-full flex justify-center items-center">
         <CardHeader className="w-full text-center text-xl">
           Welcome Back
         </CardHeader>
 
         <form onSubmit={handleLogin}>
-          <Card className="flex flex-col gap-4 px-7 py-5 w-[60vw] sm:w-[40vw] md:w-[30vw] xl:w-[20vw] items-center bg-gradient-to-bl via-green-200/10 from-black-800/10 to-blue-400/10 border-zinc-600">
+          <Card className="flex flex-col gap-4 px-7 py-5 w-[60vw] sm:w-[40vw] md:w-[35vw] xl:w-[20vw] items-center bg-gradient-to-bl via-green-200/10 from-black-800/10 to-blue-400/10 border-zinc-600">
             <div className="flex gap-3 mb-2 justify-center items-center">
               <Link
                 href="/auth/login"

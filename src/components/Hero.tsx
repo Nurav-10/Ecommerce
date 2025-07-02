@@ -67,7 +67,7 @@ const cardVariants = {
 };
   return (
     <>
-    <div className="flex md:flex-row flex-col xl:h-[50vh]">
+    <div className="flex md:flex-row flex-col mt-10 xl:h-[50vh]">
       <div className={`w-[90vw] md:w-[50vw] `}>
         <motion.p className="flex flex-col px-6 py-5 gap-1" variants={ParentVarinats} initial='hidden' animate='visible'>
 
@@ -88,7 +88,7 @@ const cardVariants = {
         <ImageSlider auto={false} timer={2500} />
     </div>
       </div>
-    <div className="px-6 mt-4 w-fit">
+    <div className="px-6 mt-4 w-fit h-fit">
       <h2 className="text-2xl font-semibold">Some New Arrivals</h2>
       <motion.div className="flex flex-row gap-10 mt-5 overflow-hidden"  variants={parentCardVariants}
   initial="hidden"

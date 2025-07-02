@@ -1,0 +1,1 @@
+ALTER TABLE "products" RENAME COLUMN "tags" TO "category";

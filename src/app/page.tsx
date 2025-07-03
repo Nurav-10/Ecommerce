@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 const page = () => {
   return (
     <>
-      <div className="overflow-x-hidden light:bg-yellow-50 w-screen h-full">
+      <div className="overflow-x-hidden light:bg-yellow-50 w-screen min-h-screen ">
         <Navbar />
         <Hero />
       </div>

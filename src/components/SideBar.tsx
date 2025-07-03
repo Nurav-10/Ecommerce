@@ -35,7 +35,7 @@ const SideBar = ({collapse,setCollapse}:{collapse:boolean,setCollapse:React.Disp
    const [active, setActive] = useState(0);
   return (
     <div
-        className={`sidebar fixed top-0 left-0 z-99 flex flex-col items-center px-4 w-fit md:px-6 py-5 transition-all duration-200 text-black min-h-screen border-r bg-gradient-to-b from-zinc-100 to-blue-200/80 border-gray-200 shadow-[0px_0px_15px_rgba(0,0,0,0.2)] gap-8 ${montserrat.className}`}
+        className={`sidebar fixed top-0 left-0 z-99 flex flex-col items-center px-4 w-fit md:px-6 py-18 transition-all duration-200 text-black min-h-screen border-r bg-gradient-to-b from-zinc-100 to-blue-200/80 border-gray-200 shadow-[0px_0px_15px_rgba(0,0,0,0.2)] gap-8 ${montserrat.className}`}
       >
          <button className={`${!collapse && 'rotate-180'} px-2 rounded-md border p-2`} onClick={()=>setCollapse((pre)=>!pre)}><ArrowRight size={16} color='blue'/></button>
         {sideBarList.map((item, index) => {

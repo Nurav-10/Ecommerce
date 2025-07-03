@@ -12,7 +12,7 @@ interface TokenPayload {
 }
 
 export const SyncUserFromToken = () => {
-  const cookie = Cookies.get("Rascal");
+  const cookie = Cookies.get("token");
 
   if (cookie) {
     const decoded = jwtDecode<TokenPayload>(cookie);

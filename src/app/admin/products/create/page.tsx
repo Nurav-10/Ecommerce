@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useRef, useEffect, use } from "react";
+import React, { useRef, useEffect } from "react";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -10,22 +10,20 @@ import Button from "@/customised-components/button";
 import SingleFile from "@/actions/singleFile";
 import MultipleFiles from "@/actions/multipleFiles";
 import { toast } from "sonner";
-import { SyncUserFromToken } from "@/actions/setUserState";
 import { useRouter } from "next/navigation";
 import { CheckAuth } from "@/actions/checkAuth";
-import { number } from "motion";
-const categories = ["Electronics", "Clothing", "Home", "Books", "Toys"];
+const categories = ["Electronics", "Clothing", "Home", "Books", "Toys",'Furniture'];
 
 const ProductCreationPage = () => {
   const router = useRouter();
   const [title, setTitle] = useState("");
   const [brand, setBrand] = useState("");
-  const [price, setPrice] = useState<number>();
+  const [price, setPrice] = useState<number>(0);
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [preview, setPreview] = useState<string | null>(null);
   const [thumbnailImage, setThumbnailImage] = useState<string>("");
-  const [stock, setStock] = useState<number>();
+  const [stock, setStock] = useState<number>(0);
   const [images, setImages] = useState<File[]>([]);
   const [uploadedImages, setUploadedImages] = useState<any[]>([]);
   const [previewUrls, setPreviewUrls] = useState<string[] | null>(null);
@@ -70,13 +68,14 @@ const ProductCreationPage = () => {
       user_id:userDetails?.id
     };
     try {
-      const response = await fetch("/api/product/create", {
+      const response = await fetch("/api/admin/product/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
       const res = await response.json();
       toast.success("Product Created Successfully");
+      console.log(res.data)
       setTitle('')
       setPrice(0)
       setBrand('')
@@ -141,22 +140,21 @@ const ProductCreationPage = () => {
     try {
       const res = await MultipleFiles(formData);
 
-      if (res) {
-        setUploadedImages(res);
+      if (res.success) {
+        setUploadedImages(res.images!);
         toast.success("Images uploaded successfully");
-        console.log(res);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Image upload failed");
+    } catch (err:any) {
+      toast.error("Image upload failed",err);
     }
   };
 
   return (
     <div className="p-5 light:bg-zinc-100 h-full w-full transition-all duration-200 pl-24 md:pl-28">
-      <h2 className="text-xl light:text-zinc-900 font-semibold">
-        Create Products
-      </h2>
+      <div className="text-xl light:text-zinc-900 font-semibold flex justify-between items-center">
+        <h2>Create Products</h2>
+        <h2 className="px-3 py-1 text-lg  bg-blue-400/40 rounded-2xl shadow-lg shadow-blue-500/25">Admin Panel</h2>
+      </div>
       <h2 className="text-zinc-600">Add new products to your inventory</h2>
       <Card className="px-3 mt-5 h-fit">
         <div className="grid grid-cols-2 gap-x-5 gap-y-8">

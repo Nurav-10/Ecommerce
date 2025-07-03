@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
-.main-heading{
-   @apply text-4xl  md:flex-col py-[2px] md:py-1 font-bold  md:text-4xl xl:text-6xl bg-gradient-to-br from-blue-200 to-emerald-300 bg-clip-text text-transparent;
-}   
+/* Hide scrollbar for Chrome, Edge, and Safari */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Hide scrollbar for IE, Edge */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+}

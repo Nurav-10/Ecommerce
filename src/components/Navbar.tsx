@@ -1,16 +1,22 @@
 "use client";
 import Link from "next/link";
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import Image from "next/image";
 import { Roboto } from "next/font/google";
 import { Raleway } from "next/font/google";
-import { ArrowRight, Moon, Sun } from "lucide-react";
+import { ArrowRight, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
 import { Logout } from "@/actions/logout";
 import { toast } from "sonner";
 import { useUserStore } from "@/store/userStore";
-import { AnimatePresence, motion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValue,
+  useScroll,
+  useTransform,
+} from "motion/react";
 import ProfilePreview from "./profilePreview";
 
 const roboto = Roboto({
@@ -41,19 +47,29 @@ const navLinks = [
     href: "/cart",
   },
 ];
-const Navbar = ({
-  collapse,
-  setCollapse,
-}: {
-  collapse: boolean;
-  setCollapse: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Navbar = () => {
+  const { scrollYProgress } = useScroll();
+
+  useEffect(() => {
+    return scrollYProgress.on("change", (v) => {
+      if (v > 0.001) setHasScrolled(true);
+    });
+  }, [scrollYProgress]);
+
+  const width = useTransform(scrollYProgress, [0, 1], ["100vw", "70vw"]);
+  const borderRadius = useTransform(scrollYProgress, [0, 1], ["1px", "50px"]);
+  const margintop = useTransform(scrollYProgress, [0, 1], ["0px", "12px"]);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
+  // const bgColor=useTransform(scrollYProgress,[0,0.5,1],['#FFFBDE','#91C8E4','#749BC2'])
+
   const { user } = useUserStore();
   const router = useRouter();
   const path = usePathname();
   const [profileDialog, setProfileDialog] = useState(false);
   const [profilePreview, setProfilePreview] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [burgerOpen, setBurgerOpen] = useState(false);
 
   const handleLogout = async () => {
     const response = await Logout();
@@ -67,33 +83,38 @@ const Navbar = ({
     setProfileDialog((prev) => !prev);
   };
   return (
-    <div className={`flex flex-row w-full fixed justify-between bg-gradient-to-tr from-black/5
-     to-cyan-200/15 backdrop-blur-[3px] items-center px-7 py-2 shadow-blue-300/20 shadow-md ${path.includes('/admin') && 'pl-20 md:pl-24'}`}>
+    <motion.div
+      style={{
+        width: hasScrolled ? width : "100vw",
+        borderRadius:hasScrolled? borderRadius:'0px',
+        marginTop:hasScrolled?margintop:'0px',
+      }}
+      className={`flex flex-row fixed justify-between bg-gradient-to-tr top-0  left-1/2 -translate-x-1/2 from-blue-500/10 z-99
+     to-cyan-300/10 backdrop-blur-[3px] items-center px-7 py-2 border border-zinc-800`}>
       <div className={`${raleway.className} font-[500] text-xl`}>
         <Link className="md:flex hidden" href={"/"}>
           FashionEra
         </Link>
-        <h2 className="md:hidden flex">Logo</h2>
+        <Link href="/" className="md:hidden flex">
+          Logo
+        </Link>
       </div>
-      {path.includes("admin") ? (
-        <h2 className={`text-xl ${raleway.className}`}>Admin Panel</h2>
-      ) : (
-        <div className="flex-row border rounded-xl light:border-black border-zinc-500 hidden md:flex">
-          {navLinks.map((i, index) => {
-            return (
-              <Link
-                key={index}
-                className="transition-all duration-200 hover:bg-pink-100 hover:text-black px-5 rounded-xl "
-                href={i.href}
-              >
-                {i.title}
-              </Link>
-            );
-          })}
-        </div>
-      )}
+      <div className={`flex-row light:border-black gap-3 hidden xl:flex`}>
+        {navLinks.map((i, index) => {
+          return (
+            <Link
+              key={index}
+              className="transition-all duration-200 ease-in-out bg-zinc-100/5 hover:bg-blue-200/75 px-5 rounded-md py-1 hover:shadow-[1.5px_1.5px_3px_rgba(0,0,0,1)]"
+              href={i.href}
+            >
+              {i.title}
+            </Link>
+          );
+        })}
+      </div>
 
       <div className="flex-row flex gap-2 items-center">
+        {!path.includes('/admin') &&<Link href='/admin/products' className="adminPanelAccess border hover:w-fit transition-all duration-400 ease-in rounded-full text-center px-2  bg-gradient-to-bl from-black/20 to-orange-300/45 hover:bg-orange-400/40 cursor-pointer absolute top-14 right-5">Admin</Link>}
         <div>
           {theme === "light" ? (
             <Moon size={20} onClick={() => setTheme("dark")} />
@@ -102,15 +123,21 @@ const Navbar = ({
           )}
         </div>
         <button
-          className="rounded-md text-white dark:bg-white px-2 py-1 dark:text-black bg-black hover:bg-red-400 border-1 cursor-pointer border-black hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all duration-300"
+          className={`rounded-md text-white dark:bg-white px-2 py-1 dark:text-black bg-black ${
+            user?.email ? "hover:bg-red-400" : "hover:bg-emerald-300"
+          } border-1 cursor-pointer border-black hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all duration-300`}
           type="submit"
-          onClick={()=>{
-            user?.email ? handleLogout() :router.push('/auth/login')
+          onClick={() => {
+            user?.email ? handleLogout() : router.push("/auth/login");
           }}
         >
-          {user?.email ? 'Logout':'Login'}
+          {user?.email ? "Logout" : "Login"}
         </button>
-        <div onClick={()=>{user?.email &&handleProfile()}}>
+        <div
+          onClick={() => {
+            user?.email && handleProfile();
+          }}
+        >
           <Image
             src={"/836.jpg"}
             width={100}
@@ -138,7 +165,7 @@ const Navbar = ({
                 <h2 className="text-sm">{user?.username}</h2>
                 <h2 className="text-sm">{user?.email}</h2>
                 <button
-                  onClick={() => setProfilePreview((pre)=>!pre)}
+                  onClick={() => setProfilePreview((pre) => !pre)}
                   className="px-2 text-sm mt-2 bg-emerald-500 py-1 hover:bg-emerald-700 rounded-md"
                 >
                   Update Profile
@@ -147,17 +174,40 @@ const Navbar = ({
             </AnimatePresence>
           )}
         </div>
+        <div className="relative">
+          <Menu
+            onClick={() => setBurgerOpen((p) => !p)}
+            className="xl:hidden flex"
+          />
+          <motion.div
+            className={`flex-col absolute bg-zinc-800/80 rounded-sm text-center top-9 right-1 text-white  ${
+              burgerOpen && "flex"
+            }`}
+          >
+            {burgerOpen &&
+              navLinks.map((i, ind) => {
+                return (
+                  <Link
+                    href={i.href}
+                    key={ind}
+                    className="hover:text-blue-500 hover:bg-zinc-700 px-5 py-1"
+                  >
+                    {i.title}
+                  </Link>
+                );
+              })}
+          </motion.div>
+        </div>
       </div>
-      {
-        profilePreview && 
-        <ProfilePreview 
-        setProfilePreview={setProfilePreview}
-        email={user?.email}
-        username={user?.username}
-        role={user?.role}
+      {profilePreview && (
+        <ProfilePreview
+          setProfilePreview={setProfilePreview}
+          email={user?.email}
+          username={user?.username}
+          role={user?.role}
         />
-      }
-    </div>
+      )}
+    </motion.div>
   );
 };
 

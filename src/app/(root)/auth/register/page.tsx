@@ -7,6 +7,7 @@ import { motion } from "motion/react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const rale = Raleway({
   subsets: ["latin"],
@@ -48,7 +49,7 @@ const page = () => {
    
 
   return (
-    <div className={`flex w-screen h-screen ${rale.className}`}>
+    <div className={`flex w-screen h-screen ${rale.className} bg-zinc-950 text-white`}>
       <div className="login md:w-[50vw] w-full flex-col h-full flex justify-center items-center">
         <CardHeader className="w-full text-center text-xl">
           Welcome Back
@@ -129,7 +130,9 @@ const page = () => {
           </Card>
         </form>
       </div>
-      <div className="imagePoster md:w-[50vw] w-0 h-full"></div>
+      <div className="imagePoster md:w-[50vw] w-0 h-full">
+        <Image src='/1326.jpg' width={1000} height={1000} className="w-full h-full object-cover" alt="registerPoster"/>
+      </div>
       <div className="w-full h-10 bg-amber-100 font-light text-black overflow-x-hidden text-3xl  absolute bottom-10 flex items-center">
         <motion.div
           className="flex whitespace-nowrap items-center"

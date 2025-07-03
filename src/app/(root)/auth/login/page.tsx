@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/userStore";
 import { SyncUserFromToken } from "@/actions/setUserState";
+import Image from "next/image";
 
 const rale = Raleway({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ const page = () => {
   };
   return (
     <div className={`flex w-screen h-screen bg-zinc-950 ${rale.className} text-white`}>
-      <div className="login md:w-[50vw] w-full flex-col h-full flex justify-center items-center">
+      <div className="login xl:w-[30vw] w-full flex-col h-full flex justify-center items-center">
         <CardHeader className="w-full text-center text-xl">
           Welcome Back
         </CardHeader>
@@ -94,17 +95,20 @@ const page = () => {
           </Card>
         </form>
       </div>
-      <div className="imagePoster md:w-[50vw] w-0 h-full"></div>
+      <div className="imagePoster xl:w-[70vw] w-0 h-full">
+        <Image src='/1325.jpg' width={1000} height={1000} alt="loginPoster"
+        className="w-full h-full object-cover"/>
+      </div>
       <div className="w-full h-10 bg-amber-100 font-light text-black overflow-x-hidden text-3xl  absolute bottom-10 flex items-center">
         <motion.div
           className="flex whitespace-nowrap items-center"
-          //    animate={{ x:['100%','-100%']}}
-          //    transition={{
-          //     repeat: Infinity,
-          //     repeatType: "loop",
-          //     duration:10,
-          //     ease:'linear'
-          //   }}
+             animate={{ x:['100%','-100%']}}
+             transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration:10,
+              ease:'linear'
+            }}
         >
           <p className="">
             Discover. Shop. Repeat — Style Meets Convenience — Where Trends

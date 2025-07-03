@@ -3,8 +3,8 @@ import cloudinary from '@/lib/cloudinary'
 
 
 const MultipleFiles = async(formdata:FormData) => {
+   try{
    const files=formdata.getAll('files')
-
    const uploadPromises=files.map(async(file)=>{
       const arrayBuffer=await (file as Blob).arrayBuffer()
       const buffer=Buffer.from(arrayBuffer)
@@ -18,7 +18,13 @@ const MultipleFiles = async(formdata:FormData) => {
          stream.end(buffer)
       })
    })
-   return Promise.all(uploadPromises)
+   const images=await Promise.all(uploadPromises)
+   return {success:true,images}
+}
+catch(err:any)
+{
+   return {success:false,message:err.message}
+}
 }
 
 export default MultipleFiles

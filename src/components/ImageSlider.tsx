@@ -36,9 +36,9 @@ const ImageSlider = ({auto,timer}:{auto:boolean,timer:number}) => {
   })
   return (
     <>
-      <div className="flex flex-col w-full  h-fit gap-2 justify-center items-center overflow-x-hidden scroll snap ">
+      <div className="flex flex-col w-full h-75 xl:h-80 gap-2 justify-center items-center overflow-x-hidden scroll snap py-5 ">
         <motion.div
-        key={currentIndex} className="overflow-x-auto scrollbar-hide h-full"
+        key={currentIndex} className="overflow-x-auto scrollbar-hide w-full h-full"
          initial={{opacity:0,x:100}}
         animate={{opacity:1,x:0}}
         exit={{opacity:0,x:-100}}
@@ -49,7 +49,7 @@ const ImageSlider = ({auto,timer}:{auto:boolean,timer:number}) => {
             alt="SliderImage"
             width={1000}
             height={1000}
-            className="w-fit h-fit rounded-md"
+            className="w-full h-full object-cover rounded-md"
             />
             </motion.div>
 

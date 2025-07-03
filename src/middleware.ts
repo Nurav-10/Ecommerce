@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { CheckAuth } from './actions/checkAuth';
 
 export async function middleware(request: NextRequest) {
-  const token = request.cookies.get('Rascal')?.value;
+  const token = request.cookies.get('token')?.value;
 
   const protectedPaths = ['/profile', '/admin/products/create','/admin/orders','/admin/products'];
   const isProtected = protectedPaths.some((path) =>

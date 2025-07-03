@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SyncUserFromToken } from "@/actions/setUserState";
+import SmoothScroll from "@/components/SmoothScroll";
+
 
 export const metadata: Metadata = {
   title: "Ecommerce",
@@ -16,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`w-screen h-screen overflow-hidden antialiased`}
+        className={`w-screen h-screen overflow-x-hidden antialiased`}
         >
         <SyncUserFromToken/>
         <ThemeProvider
@@ -26,7 +28,9 @@ export default function RootLayout({
         enableSystem
         disableTransitionOnChange
         >
+          <SmoothScroll>
           {children}
+          </SmoothScroll>
           </ThemeProvider>
       </body>
     </html>

@@ -5,7 +5,7 @@ export async function Logout(){
    const cookie=await cookies()
 
   cookie.set({
-   name:'Rascal',
+   name:'token',
    value:'',
    path:'/',
    maxAge:0

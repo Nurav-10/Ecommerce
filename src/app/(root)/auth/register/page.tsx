@@ -15,6 +15,7 @@ const rale = Raleway({
 });
 const page = () => {
   const router=useRouter()
+  const [gender,setGender]=useState("")
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
@@ -31,7 +32,7 @@ const page = () => {
     const response=await fetch('/api/user/create',{
       method:'POST',
       headers:{'Content-Type':'appliaction/json'},
-      body:JSON.stringify({username,email,password,role})
+      body:JSON.stringify({username,email,password,role,gender})
     })
     const res=await response.json()
 
@@ -71,7 +72,7 @@ const page = () => {
                 Register
               </Link>
             </div>
-
+            <div className="grid grid-cols-2 gap-4 place-items-center ">
             <div className="flex flex-col gap-1 w-full">
               <CardTitle className="text-sm">Username</CardTitle>
               <Input
@@ -110,17 +111,38 @@ const page = () => {
                 onChange={(e) => setRole(e.target.value)}
                 value={role}
                 id="role"
-                className="border rounded-md  py-1 px-2"
+                className="border rounded-md  py-1.5 px-2"
               >
                 <option className="text-black">Select Role</option>
-                <option className="text-black" key="BUYER" value="BUYER">
-                  BUYER
+                <option className="text-black" key="USER" value="USER">
+                  USER
                 </option>
                 <option className="text-black" key="SELLER" value="SELLER">
                   SELLER
                 </option>
               </select>
             </div>
+
+             <div className="flex flex-col gap-1 w-full">
+              <CardTitle className="text-sm">Gender</CardTitle>
+              <select
+                onChange={(e) => setGender(e.target.value)}
+                value={gender}
+                id="gender"
+                className="border rounded-md  py-1 px-2"
+              >
+                <option className="text-black">Select Gender</option>
+                <option className="text-black" key="MALE" value="MALE">
+                  MALE
+                </option>
+                <option className="text-black" key="FEMALE" value="FEMALE">
+                  FEMALE
+                </option>
+              </select>
+            </div>
+            </div>
+
+
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded-sm"
@@ -136,13 +158,13 @@ const page = () => {
       <div className="w-full h-10 bg-amber-100 font-light text-black overflow-x-hidden text-3xl  absolute bottom-10 flex items-center">
         <motion.div
           className="flex whitespace-nowrap items-center"
-          //    animate={{ x:['100%','-100%']}}
-          //    transition={{
-          //     repeat: Infinity,
-          //     repeatType: "loop",
-          //     duration:10,
-          //     ease:'linear'
-          //   }}
+             animate={{ x:['100%','-100%']}}
+             transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration:10,
+              ease:'linear'
+            }}
         >
           <p className="">
             Discover. Shop. Repeat — Style Meets Convenience — Where Trends

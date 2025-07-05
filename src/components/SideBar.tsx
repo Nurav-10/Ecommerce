@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { Montserrat } from "next/font/google";
 import { ArrowRight, Box, ListOrdered, Plus } from "lucide-react";
 
-
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
@@ -12,19 +11,19 @@ const montserrat = Montserrat({
 
 const sideBarList = [
   {
-    id: 1,
+    id: 0,
     title: "Product",
     href: "/admin/products",
     logo:<Box size={13}/>
   },
   {
-    id: 2,
+    id: 1,
     title: "Order",
     href: "/admin/orders",
     logo:<ListOrdered size={13}/>
   },
   {
-    id: 3,
+    id: 2,
     title: "Create Product",
     href: "/admin/products/create",
     logo:<Plus size={13}/>
@@ -48,7 +47,7 @@ const SideBar = ({collapse,setCollapse}:{collapse:boolean,setCollapse:React.Disp
              {
               !collapse&& item.title
              }
-              {item.logo}
+              <span>{item.logo}</span>
             </Link>
           );
         })}

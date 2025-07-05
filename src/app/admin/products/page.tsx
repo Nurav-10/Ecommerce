@@ -32,7 +32,7 @@ const page = () => {
     })()
   },[])
   return (
-    <div className='pl-18 md:pl-26 mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center xl:grid-cols-5 space-x-3 justify-center space-y-1 w-full h-full overflow-y-auto pr-3'>
+    <div className='pl-18 md:pl-26 mt-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 items-center xl:grid-cols-5 space-x-3 justify-center space-y-4 w-full h-full overflow-y-auto pr-3'>
       {
        data?.map((item: unknown,index: React.Key | null | undefined)=>{
         return(

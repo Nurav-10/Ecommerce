@@ -22,7 +22,7 @@ export const users = pgTable('users', {
   address: text('address'),
   gender: varchar('gender', { length: 10 }),
   profilePicture: text('profile_picture'),
-  role: varchar('role', { length: 20 }).default('user'), // user, admin
+  role: varchar('role', { length: 8 }).default('USER'), // user, admin
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
 });
@@ -34,7 +34,7 @@ export const products = pgTable('products', {
   title: varchar('title', { length: 100 }).notNull(),
   brand: varchar('brand', { length: 100 }),
   description: text('description'),
-  price: real('price').notNull(),
+  price: integer('price').notNull(),
   stock: integer('stock').default(0),
   thumbnail: text('thumbnail'),
   category:text('category').notNull(),  // Array of tags
@@ -43,7 +43,8 @@ export const products = pgTable('products', {
   ratingCount: integer('rating_count').default(0), // Total number of ratings
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
-
+  subcategory:text('subcategory').default(''),
+  colors: jsonb('colors').default([]).notNull(),
   userId:uuid('user_id').notNull().references(()=>users.id,{onDelete:'cascade'})
 });
 

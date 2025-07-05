@@ -39,8 +39,8 @@ const navLinks = [
     href: "/products",
   },
   {
-    title: "About",
-    href: "/about",
+    title: "Wishlist",
+    href: "/wishlist",
   },
   {
     title: "Cart",
@@ -99,12 +99,12 @@ const Navbar = () => {
           Logo
         </Link>
       </div>
-      <div className={`flex-row light:border-black gap-3 hidden xl:flex`}>
+      <div className={`flex-row light:border-black gap-3 hidden xl:flex font-semibold`}>
         {navLinks.map((i, index) => {
           return (
             <Link
               key={index}
-              className="transition-all duration-200 ease-in-out bg-zinc-100/5 hover:bg-blue-200/75 px-5 rounded-md py-1 hover:shadow-[1.5px_1.5px_3px_rgba(0,0,0,1)]"
+              className="transition-all duration-200 ease-in-out  hover:bg-blue-200/75 px-5 rounded-md py-1 hover:shadow-[1.5px_1.5px_3px_rgba(0,0,0,1)]"
               href={i.href}
             >
               {i.title}
@@ -114,7 +114,7 @@ const Navbar = () => {
       </div>
 
       <div className="flex-row flex gap-2 items-center">
-        {!path.includes('/admin') &&<Link href='/admin/products' className="adminPanelAccess border hover:w-fit transition-all duration-400 ease-in rounded-full text-center px-2  bg-gradient-to-bl from-black/20 to-orange-300/45 hover:bg-orange-400/40 cursor-pointer absolute top-14 right-5">Admin</Link>}
+      {user?.email && !path.includes('/admin') &&<Link href='/admin/products' className="adminPanelAccess border hover:w-fit transition-all duration-400 ease-in rounded-full text-center px-2  bg-gradient-to-bl from-black/40 text-white to-orange-400/90 hover:bg-orange-400/40 cursor-pointer absolute top-14 right-5">Admin</Link>}
         <div>
           {theme === "light" ? (
             <Moon size={20} onClick={() => setTheme("dark")} />

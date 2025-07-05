@@ -11,6 +11,7 @@ import { motion } from "motion/react";
 import { delay } from "motion";
 import ItemCard from "./ItemCard";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const openSans = Open_Sans({
   subsets: ["latin"],
@@ -21,7 +22,7 @@ const Hero = () => {
   const [data, setData] = useState<Data[] | null>();
   useEffect(() => {
     (async () => {
-      const response = await fetch('/api/products/get',{
+      const response = await fetch('/api/products/new-arrivals',{
         method:'GET'
       })
 
@@ -91,12 +92,12 @@ const Hero = () => {
           
           </motion.p>
           <div className="flex flex-row gap-3 px-6 mt-1 text-md">
-            <Button onClick={()=>router.push('/products')} className="bg-white border text-black font-semibold rounded-sm hover:hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all ease-in duration-150 ">
+            <Link href='/products' onClick={()=>router.push('/products')} className="bg-white border text-black font-semibold rounded-sm px-3 py-1 hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all ease-in duration-150 ">
               Checkout
-            </Button>
-            <Button className="bg-gradient-to-bl from-black/20 to-emerald-300 font-semibold rounded-sm  hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all ease-in duration-150">
+            </Link>
+            <Link href='/auth/register' className="bg-gradient-to-bl py-1 px-3 border from-black/20 to-emerald-300 font-semibold rounded-sm  hover:shadow-[1.5px_1.5px_1px_rgba(0,0,0,1)] transition-all ease-in duration-150">
               Signup
-            </Button>
+            </Link>
           </div>
         </div>
 

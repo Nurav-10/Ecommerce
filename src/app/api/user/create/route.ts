@@ -21,6 +21,7 @@ export async function POST(request:Request)
    const newuser=await db.insert(users).values({
       username,
       email,
+      gender,
       password:hashedPassword,
       address,
       role:role || "BUYER"
